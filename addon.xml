@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.test.lbry" name="Lbry" version="0.0.1" provider-name="Danny Robinson">
+<addon id="plugin.video.lbry" name="Lbry" version="0.0.1" provider-name="stellartux">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
+        <import addon="script.module.requests"/>
 
     </requires>
-    <extension point="xbmc.python.pluginsource" library="main.py">
+    <extension point="xbmc.python.pluginsource" library="lbry.py">
         <provides>image video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
