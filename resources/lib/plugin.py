@@ -7,7 +7,7 @@ from resources.lib import kodiutils
 from resources.lib import kodilogging
 from xbmcgui import ListItem
 from xbmcplugin import addDirectoryItem, endOfDirectory
-
+import requests
 
 ADDON = xbmcaddon.Addon()
 logger = logging.getLogger(ADDON.getAddonInfo('id'))
@@ -18,9 +18,9 @@ plugin = routing.Plugin()
 @plugin.route('/')
 def index():
     addDirectoryItem(plugin.handle, plugin.url_for(
-        show_category, "one"), ListItem("Category One"), True)
+        show_category, "one"), ListItem("Connect to spee.ch"), True)
     addDirectoryItem(plugin.handle, plugin.url_for(
-        show_category, "two"), ListItem("Category Two"), True)
+        show_category, "two"), ListItem("Connect to lbry daemon"), True)
     endOfDirectory(plugin.handle)
 
 

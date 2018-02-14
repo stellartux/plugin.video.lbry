@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: Lbry
-# Addon id: plugin.test.lbry
-# Addon Provider: Danny Robinson
+# Addon id: plugin.video.lbry
+# Addon Provider: stellartux
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC Addons\n"
@@ -18,10 +18,10 @@ msgstr ""
 
 #This is a comment
 
-msgctxt "#32000"
-msgid "Example"
+msgctxt "#30000"
+msgid "lbrynet daemon JSON-RPC URL"
 msgstr ""
 
-msgctxt "#32001"
-msgid "Debug"
+msgctxt "#30001"
+msgid "spee.ch server URL"
 msgstr ""

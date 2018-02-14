@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-    <setting id="debug" type="bool" label="32001" default="false"/>
+    <setting id="lbryurl" type="text" label="30000" default="http://localhost:5279"/>
+    <setting id="speechurl" type="text" label="30001" default="https://www.spee.ch"/>
 </settings>
-
