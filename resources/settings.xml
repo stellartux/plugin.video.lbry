@@ -2,4 +2,5 @@
 <settings>
     <setting id="lbryurl" type="text" label="30000" default="http://localhost:5279"/>
     <setting id="speechurl" type="text" label="30001" default="https://www.spee.ch"/>
+    <setting id="nsfw" type="bool" label="30002" default="false"/>
 </settings>

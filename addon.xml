@@ -10,8 +10,8 @@
         <provides>image video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en_GB">Allows access to the Lbry network</summary>
-        <description lang="en_GB">This addon allows access to the Lbry network, either through a locally hosted daemon or spee.ch</description>
+        <summary lang="en_GB">Access the Lbry network</summary>
+        <description lang="en_GB">Access content hosted on the Lbry network, either through a locally hosted daemon or spee.ch</description>
         <language></language>
         <platform>all</platform>
         <license>MIT</license>
