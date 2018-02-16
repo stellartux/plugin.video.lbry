@@ -46,12 +46,10 @@ def show_local_files():
             li = ListItem(r['metadata']['stream']['metadata']['title'])
             if r['metadata']['stream']['metadata']['thumbnail']:
                 li.setArt({'thumb':r['metadata']['stream']['metadata']['thumbnail']})
-            addDirectoryItem(plugin.handle, plugin.url_for(open_file, r['download_path']), li)
+        else:
+            li = ListItem(r['file_name'])
+        addDirectoryItem(plugin.handle, r['download_path'], li)
     endOfDirectory(plugin.handle)
-
-@plugin.route('lbry/localfiles/play/<file>')
-def open_file():
-    pass
 
 @plugin.route('/lbry/search')
 def lbry_search():
