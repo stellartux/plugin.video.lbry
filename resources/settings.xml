@@ -5,7 +5,7 @@
   </category>
   <category label="30003">
     <setting id="lbryurl" type="text" option="urlencoded" label="30000" default="http://localhost:5279"/>
-    <setting id="daemonpath" type="text" label="30004" default="C:\Program Files (x86)\LBRY\resources\static\daemon"/>
+    <setting id="daemonpath" type="text" label="30004" default=""/>
   </category>
 <!--    <setting id="speechurl" type="text" option="urlencoded" label="30001" default="https://www.spee.ch"/> -->
 </settings>

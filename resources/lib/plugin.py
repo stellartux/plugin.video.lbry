@@ -56,29 +56,34 @@ def lbry_menu():
 @plugin.route('/lbry/wallet')
 def wallet_menu():
     addDirectoryItem(ph, plugin.url_for(show_balance), ListItem(translate(30118)), True)
+    addDirectoryItem(ph, plugin.url_for(show_unused_address), ListItem(translate(30123)), True)
     endOfDirectory(ph)
 
 @plugin.route('/lbry/wallet/balance')
 def show_balance():
-    addDirectoryItem(ph, "", ListItem(translate(30119) + lbry_rpc('wallet_balance')), True)
-    endOfDirectory(ph)
+    balance = lbry_rpc('wallet_balance')
+    dialog.ok(translate(30119), translate(30120) + str(balance) + translate(30121))
 
-@plugin.route('/lbry/file_delete/<claim_id>')
-def file_delete(claim_id):
-    myClaims = lbry_rpc('claim_list_mine')
-    for c in myClaims:
-        if c['claim_id'] == claim_id:
-            value = lbry_rpc('claim_show', {'claim_id': claim_id})
-            userIsCertain = dialog.yesno(translate(30113), translate(30114))
-            if userIsCertain:
-                lbry_rpc('claim_abandon', {'claim_id': claim_id})
-    userIsCertain = dialog.yesno(translate(30115),translate(30116))
-    if userIsCertain:
-        result = lbry_rpc('file_delete', {'claim_id': claim_id})
-        if result:
-            xbmc.executebuiltin("Container.Refresh")
-        else:
-            dialog.notification(translate(30110), translate(30111), NOTIFICATION_ERROR)
+@plugin.route('/lbry/wallet/unused_address')
+def show_unused_address():
+    address = lbry_rpc('wallet_unused_address')
+    dialog.ok(translate(30122), address)
+
+@plugin.route('/lbry/file_delete/<file_name>')
+def file_delete(file_name):
+    if dialog.yesno(translate(30115),translate(30116)):
+        result = lbry_rpc('file_delete', {'file_name': file_name, 'delete_target_file': True})
+        xbmc.executebuiltin("Container.Refresh")
+        #if result:
+        #    myClaims = lbry_rpc('claim_list_mine')
+        #    for c in myClaims:
+        #        if c['claim_id'] == claim_id:
+        #            value = lbry_rpc('claim_show', {'claim_id': claim_id})
+        #            if dialog.yesno(translate(30113), translate(30114)):
+        #                lbry_rpc('claim_abandon', {'claim_id': claim_id})
+        #    xbmc.executebuiltin("Container.Refresh")
+        #else:
+        #    dialog.notification(translate(30110), translate(30111), image=NOTIFICATION_ERROR)
 
 @plugin.route('/lbry/videos')
 def show_videos():
@@ -88,7 +93,7 @@ def show_videos():
         if r['mime_type'].startswith('video'):
             url = r['download_path']
             if r['metadata']:
-                s = r['metadata']['stream']['metadata']
+                s = r['metadata']
                 if nsfw or not s['nsfw']:
                     li = ListItem(s['title'])
                     if s['thumbnail']:
@@ -104,7 +109,7 @@ def show_videos():
             else:
                 li = ListItem(r['file_name'])
             li.setMimeType(r['mime_type'])
-            li.addContextMenuItems([(translate(30112), plugin.url_for(file_delete, {'claim_id':r['claim_id']}))])
+            #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, {'file_name': r['file_name']}) + ')')])
             addDirectoryItem(ph, url, li)
     endOfDirectory(ph)
 
@@ -118,7 +123,7 @@ def show_images():
             url = r['download_path']
 
             if r['metadata']:
-                s = r['metadata']['stream']['metadata']
+                s = r['metadata']
                 if nsfw or not s['nsfw']:
                     li = ListItem(s['title'])
                     if s['thumbnail']:
@@ -141,10 +146,13 @@ def show_images():
 @plugin.route('/lbry/search')
 def lbry_search():
     query = dialog.input(translate(30106))
-    result = lbry_rpc('resolve', {'uri': query})
-    for r in result:
-        pass
-    endOfDirectory(ph)
+    if query != "":
+        result = lbry_rpc('resolve', {'uri': query})
+        for r in result:
+            pass
+        endOfDirectory(ph)
+    else:
+        endOfDirectory(ph, False)
 
 def translate(id):
     return ADDON.getLocalizedString(id)

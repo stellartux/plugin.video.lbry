@@ -113,13 +113,25 @@ msgid "Wallet"
 msgstr ""
 
 msgctxt "#30118"
-msgid "Show balance for all addresses"
+msgid "Show balance"
 msgstr ""
 
 msgctxt "#30119"
-msgid ""
+msgid "Wallet balance"
 msgstr ""
 
 msgctxt "#30120"
-msgid ""
+msgid "Your wallet's balance is "
+msgstr ""
+
+msgctxt "#30121"
+msgid "LBC"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Unused Address"
+msgstr ""
+
+msgctxt "#30123"
+msgid "Show an unused address"
 msgstr ""
