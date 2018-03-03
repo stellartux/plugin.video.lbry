@@ -20,7 +20,7 @@ msgstr ""
 
 # Strings for settings.xml
 msgctxt "#30000"
-msgid "lbrynet daemon JSON-RPC URL"
+msgid "JSON-RPC URL"
 msgstr ""
 
 msgctxt "#30001"
@@ -31,6 +31,13 @@ msgctxt "#30002"
 msgid "Show NSFW content"
 msgstr ""
 
+msgctxt "#30003"
+msgid "lbry daemon"
+msgstr ""
+
+msgctxt "#30004"
+msgid "Path to daemon"
+msgstr ""
 
 # Strings for plugin GUI
 msgctxt "#30100"
@@ -71,4 +78,60 @@ msgstr ""
 
 msgctxt "#30109"
 msgid "search on spee.ch"
+msgstr ""
+
+msgctxt "#30110"
+msgid "Error"
+msgstr ""
+
+msgctxt "#30111"
+msgid "File could not be deleted"
+msgstr ""
+
+msgctxt "#30112"
+msgid "Delete"
+msgstr ""
+
+msgctxt "#30113"
+msgid "Abandom Claim?"
+msgstr ""
+
+msgctxt "#30114"
+msgid "You own the claim for the file you are about to delete. Would you like to abandon the claim?"
+msgstr ""
+
+msgctxt "#30115"
+msgid "Delete File?"
+msgstr ""
+
+msgctxt "#30116"
+msgid "Are you sure you want to delete this file?"
+msgstr ""
+
+msgctxt "#30117"
+msgid "Wallet"
+msgstr ""
+
+msgctxt "#30118"
+msgid "Show balance"
+msgstr ""
+
+msgctxt "#30119"
+msgid "Wallet balance"
+msgstr ""
+
+msgctxt "#30120"
+msgid "Your wallet's balance is "
+msgstr ""
+
+msgctxt "#30121"
+msgid "LBC"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Unused Address"
+msgstr ""
+
+msgctxt "#30123"
+msgid "Show an unused address"
 msgstr ""
