@@ -61,12 +61,12 @@ def wallet_menu():
 
 @plugin.route('/lbry/wallet/balance')
 def show_balance():
-    balance = lbry_rpc('wallet_balance')
+    balance = lbry_rpc('account_balance')
     dialog.ok(translate(30119), translate(30120) + str(balance) + translate(30121))
 
 @plugin.route('/lbry/wallet/unused_address')
 def show_unused_address():
-    address = lbry_rpc('wallet_unused_address')
+    address = lbry_rpc('address_unused')
     dialog.ok(translate(30122), address)
 
 @plugin.route('/lbry/file_delete/<file_name>')
@@ -75,12 +75,12 @@ def file_delete(file_name):
         result = lbry_rpc('file_delete', {'file_name': file_name, 'delete_target_file': True})
         xbmc.executebuiltin("Container.Refresh")
         #if result:
-        #    myClaims = lbry_rpc('claim_list_mine')
+        #    myClaims = lbry_rpc('claim_list')
         #    for c in myClaims:
         #        if c['claim_id'] == claim_id:
-        #            value = lbry_rpc('claim_show', {'claim_id': claim_id})
+        #            value = lbry_rpc('claim_search', {'claim_id': claim_id})
         #            if dialog.yesno(translate(30113), translate(30114)):
-        #                lbry_rpc('claim_abandon', {'claim_id': claim_id})
+        #                lbry_rpc('stream_abandon', {'claim_id': claim_id})
         #    xbmc.executebuiltin("Container.Refresh")
         #else:
         #    dialog.notification(translate(30110), translate(30111), image=NOTIFICATION_ERROR)
