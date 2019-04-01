@@ -91,7 +91,7 @@ msgid "Delete"
 msgstr ""
 
 msgctxt "#30113"
-msgid "Abandom Claim?"
+msgid "Abandon Claim?"
 msgstr ""
 
 msgctxt "#30114"
@@ -132,4 +132,37 @@ msgstr ""
 
 msgctxt "#30123"
 msgid "Show an unused address"
+msgstr ""
+
+msgctxt "#30124"
+msgid "Send a tip"
+msgstr ""
+
+msgctxt "#30125"
+msgid "Send a tip to"
+msgstr ""
+
+msgctxt "#30126"
+msgid "Amount"
+msgstr ""
+
+msgctxt "#30127"
+msgid "How much would you like to tip?"
+msgstr ""
+
+#In full "Send a tip of $value LBC to $username ?"
+msgctxt "#30128"
+msgid "Send a tip of "
+msgstr ""
+
+msgctxt "#30129"
+msgid " LBC to "
+msgstr ""
+
+msgctxt "#30130"
+msgid "Error"
+msgstr ""
+
+msgctxt "#30131"
+msgid "Please enter a number."
 msgstr ""

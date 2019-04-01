@@ -17,7 +17,7 @@ import logging
 import xbmcaddon
 from resources.lib import kodiutils, kodilogging
 import xbmc
-from xbmcgui import ListItem, Dialog, NOTIFICATION_ERROR
+from xbmcgui import ListItem, Dialog, NOTIFICATION_ERROR, INPUT_NUMERIC
 from xbmcplugin import addDirectoryItem, endOfDirectory, getSetting, setContent
 import requests
 
@@ -110,6 +110,7 @@ def show_videos():
                 li = ListItem(r['file_name'])
             li.setMimeType(r['mime_type'])
             #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, {'file_name': r['file_name']}) + ')')])
+            #li.addContextMenuItems([(translate(30125) + ' ' + r['channel_name'], 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=r['channel_name']) + ')')])
             addDirectoryItem(ph, url, li)
     endOfDirectory(ph)
 
@@ -165,6 +166,17 @@ def speech_menu():
 @plugin.route('/speech/search')
 def speech_search():
     query = dialog.input(translate(30109))
+
+@plugin.route('/lbry/send_tip/<claim_id>/<channel_name>')
+def send_tip(claim_id, channel_name):
+    amount = dialog.input(translate(30127))
+    try:
+        amount = float(amount)
+    except:
+        dialog.notification(translate(30130), translate(30131), NOTIFICATION_ERROR)
+        return
+    if (dialog.yesno(translate(30124), translate(30128) + str(amount) + translate(30129) + channel_name + '?')):
+        dialog('DO THE THING', 'This is where I would send the tip, if the API were done.')
 
 def run():
     plugin.run()
