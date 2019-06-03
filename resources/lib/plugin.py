@@ -18,7 +18,7 @@ import xbmcaddon
 from resources.lib import kodiutils, kodilogging
 import xbmc
 from xbmcgui import ListItem, Dialog, NOTIFICATION_ERROR, INPUT_NUMERIC
-from xbmcplugin import addDirectoryItem, endOfDirectory, getSetting, setContent
+from xbmcplugin import addDirectoryItem, addDirectoryItems, endOfDirectory, getSetting, setContent
 import requests
 
 ADDON = xbmcaddon.Addon()
@@ -84,6 +84,7 @@ def file_delete(file_name):
 def show_videos():
     result = lbry_rpc('file_list')
     setContent(ph, 'movies')
+    items = []
     for r in result:
         if r['mime_type'].startswith('video'):
             if 'metadata' in r:
@@ -99,7 +100,8 @@ def show_videos():
             else:
                 url = r['streaming_url']
             #li.addContextMenuItems([(translate(30125) + ' ' + r['channel_name'], 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=r['channel_name']) + ')')])
-            addDirectoryItem(ph, url, li)
+            items.append((url, li))
+    addDirectoryItems(ph, items, len(items))
     endOfDirectory(ph)
 
 def make_video_listitem(r, s):
@@ -121,8 +123,14 @@ def lbry_search():
     query = dialog.input(translate(30106))
     if query != "":
         result = lbry_rpc('claim_search', {'name': query})
+        items = []
         for r in result['items']:
-            addDirectoryItem(ph, "", make_video_listitem(r, r['value']))
+            # still need to work out the URL for downloading the file
+            items.append(('', make_video_listitem(r, r['value'])))
+        addDirectoryItems(ph, items, result['page_size'])
+        if (result['total_pages'] > 1):
+            # implement changing pages here
+            pass
         endOfDirectory(ph)
     else:
         endOfDirectory(ph, False)
