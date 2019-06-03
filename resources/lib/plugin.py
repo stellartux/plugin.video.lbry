@@ -87,20 +87,9 @@ def show_videos():
     for r in result:
         if r['mime_type'].startswith('video'):
             if 'metadata' in r:
-                s = r['metadata']
-                if (not nsfw and ('nsfw' in s) and s['nsfw']):
+                if (not nsfw and ('nsfw' in r['metadata']) and r['metadata']['nsfw']):
                     continue
-                li = ListItem(s['title'])
-                if 'thumbnail' in s:
-                    li.setArt({'thumb':s['thumbnail']['url'],
-                        'poster':s['thumbnail']['url'],
-                        'fanart':s['thumbnail']['url']})
-                if 'description' in s:
-                    li.setInfo('video', {'plot':s['description']})
-                if 'author' in s:
-                    li.setInfo('video', {'writer':s['author']})
-                elif 'channel_name' in r:
-                    li.setInfo('video', {'writer':r['channel_name']})
+                li = make_video_listitem(r, r['metadata'])
             else:
                 li = ListItem(r['file_name'])
             li.setMimeType(r['mime_type'])
@@ -113,42 +102,27 @@ def show_videos():
             addDirectoryItem(ph, url, li)
     endOfDirectory(ph)
 
-@plugin.route('/lbry/images')
-def show_images():
-    result = lbry_rpc('file_list')
-    setContent(ph, 'images')
-
-    for r in result:
-        if r['mime_type'].startswith('image'):
-            url = r['download_path']
-            if r['metadata']:
-                s = r['metadata']
-                if nsfw or not s['nsfw']:
-                    li = ListItem(s['title'])
-                    if s['thumbnail']:
-                        li.setArt({'thumb':s['thumbnail'],
-                            'poster':s['thumbnail'],
-                            'fanart':s['thumbnail']})
-                    if s['description']:
-                        li.setInfo('video', {'plot':s['description']})
-                    if s['author']:
-                        li.setInfo('video', {'writer':s['author']})
-                    elif 'channel_name' in r:
-                        li.setInfo('video', {'writer':r['channel_name']})
-            else:
-                li = ListItem(r['file_name'])
-            li.setMimeType(r['mime_type'])
-
-            addDirectoryItem(ph, url, li)
-    endOfDirectory(ph)
+def make_video_listitem(r, s):
+    li = ListItem(s['title'])
+    if 'thumbnail' in s and 'url' in s['thumbnail']:
+        li.setArt({'thumb':s['thumbnail']['url'],
+            'poster':s['thumbnail']['url'],
+            'fanart':s['thumbnail']['url']})
+    if 'description' in s:
+        li.setInfo('video', {'plot':s['description']})
+    if 'author' in s:
+        li.setInfo('video', {'writer':s['author']})
+    elif 'channel_name' in r:
+        li.setInfo('video', {'writer':r['channel_name']})
+    return li
 
 @plugin.route('/lbry/search')
 def lbry_search():
     query = dialog.input(translate(30106))
     if query != "":
         result = lbry_rpc('claim_search', {'name': query})
-        for r in result:
-            pass
+        for r in result['items']:
+            addDirectoryItem(ph, "", make_video_listitem(r, r['value']))
         endOfDirectory(ph)
     else:
         endOfDirectory(ph, False)
