@@ -160,9 +160,13 @@ msgid " LBC to "
 msgstr ""
 
 msgctxt "#30130"
-msgid "Error"
+msgid "Success"
 msgstr ""
 
 msgctxt "#30131"
 msgid "Please enter a number."
+msgstr ""
+
+msgctxt "#30132"
+msgid "File deleted"
 msgstr ""

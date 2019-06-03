@@ -9,8 +9,10 @@ def lbry_rpc(method, params={}):
         result.raise_for_status()
         return result.json()['result']
     except:
-        print('Lbry RPC error')
+        print('Lbry RPC error', result.json()['error']['code'], result.json()['error']['message'])
 '''
+
+# API v0.38
 
 import routing
 import logging
@@ -35,14 +37,15 @@ def lbry_rpc(method, params={}):
         result.raise_for_status()
         return result.json()['result']
     except:
-        dialog.notification(translate(30107), translate(30108), NOTIFICATION_ERROR)
+        dialog.notification(translate(30110), result.json()['error']['code'] + result.json()['error']['message'], NOTIFICATION_ERROR)
         endOfDirectory(ph, False)
 
 @plugin.route('/')
 def index():
-    addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30101)), True)
+    #addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30101)), True)
     #addDirectoryItem(ph, plugin.url_for(speech_menu), ListItem(translate(30100)), True)
-    endOfDirectory(ph)
+    #endOfDirectory(ph)
+    lbry_menu()
 
 @plugin.route('/lbry/menu')
 def lbry_menu():
@@ -69,21 +72,21 @@ def show_unused_address():
     address = lbry_rpc('address_unused')
     dialog.ok(translate(30122), address)
 
-@plugin.route('/lbry/file_delete/<file_name>')
-def file_delete(file_name):
+@plugin.route('/lbry/file_delete/<claim_id>')
+def file_delete(claim_id):
     if dialog.yesno(translate(30115),translate(30116)):
-        result = lbry_rpc('file_delete', {'file_name': file_name, 'delete_target_file': True})
-        xbmc.executebuiltin("Container.Refresh")
-        #if result:
-        #    myClaims = lbry_rpc('claim_list')
-        #    for c in myClaims:
-        #        if c['claim_id'] == claim_id:
-        #            value = lbry_rpc('claim_search', {'claim_id': claim_id})
-        #            if dialog.yesno(translate(30113), translate(30114)):
-        #                lbry_rpc('stream_abandon', {'claim_id': claim_id})
-        #    xbmc.executebuiltin("Container.Refresh")
-        #else:
-        #    dialog.notification(translate(30110), translate(30111), image=NOTIFICATION_ERROR)
+        abandon_claim(claim_id)
+        if (lbry_rpc('file_delete', {'claim_id': claim_id, 'delete_from_download_dir': True})):
+            dialog.notification(translate(30130), translate(30132))
+            xbmc.executebuiltin('Container.Refresh')
+        else:
+            dialog.notification(translate(30110), translate(30111), NOTIFICATION_ERROR)
+
+def abandon_claim(claim_id):
+    if (claim_id in list(map(lambda x: x['claim_id'], lbry_rpc('claim_list')))):
+        if dialog.yesno(translate(30113), translate(30114)):
+            lbry_rpc('stream_abandon', {'claim_id': claim_id})
+
 
 @plugin.route('/lbry/videos')
 def show_videos():
@@ -91,25 +94,26 @@ def show_videos():
     setContent(ph, 'movies')
     for r in result:
         if r['mime_type'].startswith('video'):
-            url = r['download_path']
-            if r['metadata']:
+            url = r['download_path'] if r['download_path'] != None else r['streaming_url']
+            if 'metadata' in r:
                 s = r['metadata']
-                if nsfw or not s['nsfw']:
-                    li = ListItem(s['title'])
-                    if s['thumbnail']:
-                        li.setArt({'thumb':s['thumbnail'],
-                            'poster':s['thumbnail'],
-                            'fanart':s['thumbnail']})
-                    if s['description']:
-                        li.setInfo('video', {'plot':s['description']})
-                    if s['author']:
-                        li.setInfo('video', {'writer':s['author']})
-                    elif 'channel_name' in r:
-                        li.setInfo('video', {'writer':r['channel_name']})
+                if (not nsfw and ('nsfw' in s) and s['nsfw']):
+                    continue
+                li = ListItem(s['title'])
+                if 'thumbnail' in s:
+                    li.setArt({'thumb':s['thumbnail']['url'],
+                        'poster':s['thumbnail']['url'],
+                        'fanart':s['thumbnail']['url']})
+                if 'description' in s:
+                    li.setInfo('video', {'plot':s['description']})
+                if 'author' in s:
+                    li.setInfo('video', {'writer':s['author']})
+                elif 'channel_name' in r:
+                    li.setInfo('video', {'writer':r['channel_name']})
             else:
                 li = ListItem(r['file_name'])
             li.setMimeType(r['mime_type'])
-            #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, {'file_name': r['file_name']}) + ')')])
+            #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, claim_id=r['claim_id']) + ')')])
             #li.addContextMenuItems([(translate(30125) + ' ' + r['channel_name'], 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=r['channel_name']) + ')')])
             addDirectoryItem(ph, url, li)
     endOfDirectory(ph)
@@ -148,7 +152,7 @@ def show_images():
 def lbry_search():
     query = dialog.input(translate(30106))
     if query != "":
-        result = lbry_rpc('resolve', {'uri': query})
+        result = lbry_rpc('claim_search', {'name': query})
         for r in result:
             pass
         endOfDirectory(ph)
@@ -173,7 +177,7 @@ def send_tip(claim_id, channel_name):
     try:
         amount = float(amount)
     except:
-        dialog.notification(translate(30130), translate(30131), NOTIFICATION_ERROR)
+        dialog.notification(translate(30110), translate(30131), NOTIFICATION_ERROR)
         return
     if (dialog.yesno(translate(30124), translate(30128) + str(amount) + translate(30129) + channel_name + '?')):
         dialog('DO THE THING', 'This is where I would send the tip, if the API were done.')
