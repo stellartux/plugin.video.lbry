@@ -170,3 +170,29 @@ msgstr ""
 msgctxt "#30132"
 msgid "File deleted"
 msgstr ""
+
+msgctxt "#30133"
+msgid "this channel"
+msgstr ""
+
+#Menu text
+msgctxt "#30140"
+msgid "Previous page"
+msgstr ""
+
+msgctxt "#30141"
+msgid "Next page"
+msgstr ""
+
+# "Showing page $page_num of $total_pages"
+msgctxt "#30142"
+msgid "Showing page "
+msgstr ""
+
+msgctxt "#30143"
+msgid " of "
+msgstr ""
+
+msgctxt "#30144"
+msgid "Main menu"
+msgstr ""

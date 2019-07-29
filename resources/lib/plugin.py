@@ -35,7 +35,7 @@ def lbry_rpc(method, params={}):
         result.raise_for_status()
         return result.json()['result']
     except Exception as e:
-        dialog.notification(translate(30110), e.args[0], NOTIFICATION_ERROR)
+        dialog.notification(translate(30110), result.json()['error']['message'], NOTIFICATION_ERROR)
         xbmc.log(str(e))
         endOfDirectory(ph, False)
 
@@ -48,7 +48,7 @@ def index():
 
 @plugin.route('/lbry/menu')
 def lbry_menu():
-    #addDirectoryItem(ph, plugin.url_for(lbry_search), ListItem(translate(30102)), True)
+    addDirectoryItem(ph, plugin.url_for(lbry_search), ListItem(translate(30102)), True)
     addDirectoryItem(ph, plugin.url_for(show_videos), ListItem(translate(30103)), True)
     #addDirectoryItem(ph, plugin.url_for(show_images), ListItem(translate(30104)), True)
     #addDirectoryItem(ph, plugin.url_for(show_web), ListItem(translate(30105)), True)
@@ -99,7 +99,7 @@ def show_videos():
                 #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, file_name=r['file_name']) + ')')])
             else:
                 url = r['streaming_url']
-            li.addContextMenuItems([(translate(30125) + ' ' + r['channel_name'], 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=r['channel_name']) + ')')])
+            li.addContextMenuItems([(translate(30125) + ' ' + (r['channel_name'] or translate(30133)), 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=(r['channel_name'] or translate(30133))) + ')')])
             items.append((url, li))
     addDirectoryItems(ph, items, len(items))
     endOfDirectory(ph)
@@ -121,16 +121,26 @@ def make_video_listitem(r, s):
 @plugin.route('/lbry/search')
 def lbry_search():
     query = dialog.input(translate(30106))
+    search_page(query, 1)
+
+@plugin.route('/lbry/search/<query>/<page>')
+def search_page(query, page):
+    page = int(page)
     if query != "":
-        result = lbry_rpc('claim_search', {'name': query})
+        result = lbry_rpc('claim_search', {'name': query, 'page': page})
         items = []
         for r in result['items']:
-            # still need to work out the URL for downloading the file
-            items.append(('', make_video_listitem(r, r['value'])))
+            if r['value_type'] == 'stream':
+                url = ''
+                li = make_video_listitem(r, r['value'])
+                items.append((url, li))
         addDirectoryItems(ph, items, result['page_size'])
         if (result['total_pages'] > 1):
-            # implement changing pages here
-            pass
+            addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30144)), True)
+            if (page > 1):
+                addDirectoryItem(ph, plugin.url_for(search_page, query=query, page=page-1), ListItem(translate(30140)), True)
+            if (page < result['total_pages']):
+                addDirectoryItem(ph, plugin.url_for(search_page, query=query, page=page+1), ListItem(translate(30141)), True)
         endOfDirectory(ph)
     else:
         endOfDirectory(ph, False)
@@ -148,7 +158,7 @@ def speech_search():
     query = dialog.input(translate(30109))
 
 @plugin.route('/lbry/send_tip/<claim_id>/<channel_name>')
-def send_tip(claim_id, channel_name):
+def send_tip(claim_id, channel_name=translate(30133)):
     amount = dialog.input(translate(30127))
     try:
         amount = float(amount)
