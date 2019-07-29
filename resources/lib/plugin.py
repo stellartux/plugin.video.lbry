@@ -156,7 +156,7 @@ def send_tip(claim_id, channel_name):
         dialog.notification(translate(30110), translate(30131), NOTIFICATION_ERROR)
         return
     if (dialog.yesno(translate(30124), translate(30128) + str(amount) + translate(30129) + channel_name + '?')):
-        lbry_rpc('support_create', {'claim_id': claim_id, 'amount': str(amount)})
+        lbry_rpc('support_create', {'claim_id': claim_id, 'amount': str(amount), 'tip': True})
 
 def run():
     plugin.run()
