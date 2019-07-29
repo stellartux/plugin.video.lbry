@@ -39,13 +39,12 @@ def lbry_rpc(method, params={}):
         xbmc.log(str(e))
         endOfDirectory(ph, False)
 
-@plugin.route('/')
 def index():
     #addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30101)), True)
     #addDirectoryItem(ph, plugin.url_for(speech_menu), ListItem(translate(30100)), True)
     #endOfDirectory(ph)
-    lbry_menu()
 
+@plugin.route('/')
 @plugin.route('/lbry/menu')
 def lbry_menu():
     #addDirectoryItem(ph, plugin.url_for(lbry_search), ListItem(translate(30102)), True)
@@ -99,7 +98,7 @@ def show_videos():
                 #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, file_name=r['file_name']) + ')')])
             else:
                 url = r['streaming_url']
-            #li.addContextMenuItems([(translate(30125) + ' ' + r['channel_name'], 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=r['channel_name']) + ')')])
+            li.addContextMenuItems([(translate(30125) + ' ' + r['channel_name'], 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=r['channel_name']) + ')')])
             items.append((url, li))
     addDirectoryItems(ph, items, len(items))
     endOfDirectory(ph)
