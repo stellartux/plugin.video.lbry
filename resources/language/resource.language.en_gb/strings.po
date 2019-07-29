@@ -37,6 +37,14 @@ msgctxt "#30004"
 msgid "Path to daemon"
 msgstr ""
 
+msgctxt "#30005"
+msgid "Search Options"
+msgstr ""
+
+msgctxt "#30006"
+msgid "Search Page Size"
+msgstr ""
+
 # Strings for plugin GUI
 msgctxt "#30100"
 msgid "Connect via spee.ch web API"

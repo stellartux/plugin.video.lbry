@@ -127,7 +127,7 @@ def lbry_search():
 def search_page(query, page):
     page = int(page)
     if query != "":
-        result = lbry_rpc('claim_search', {'name': query, 'page': page})
+        result = lbry_rpc('claim_search', {'name': query, 'page': page, 'page_size': int(getSetting(ph, 'page_size'))})
         items = []
         for r in result['items']:
             if r['value_type'] == 'stream':
