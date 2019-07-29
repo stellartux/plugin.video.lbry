@@ -39,12 +39,13 @@ def lbry_rpc(method, params={}):
         xbmc.log(str(e))
         endOfDirectory(ph, False)
 
+@plugin.route('/')
 def index():
     #addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30101)), True)
     #addDirectoryItem(ph, plugin.url_for(speech_menu), ListItem(translate(30100)), True)
     #endOfDirectory(ph)
+    lbry_menu()
 
-@plugin.route('/')
 @plugin.route('/lbry/menu')
 def lbry_menu():
     #addDirectoryItem(ph, plugin.url_for(lbry_search), ListItem(translate(30102)), True)
