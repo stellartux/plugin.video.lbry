@@ -80,7 +80,7 @@ def file_delete(file_name):
             dialog.notification(translate(30130), translate(30132))
             xbmc.executebuiltin('Container.Refresh')
         else:
-            dialog.notification(translate(30110), translate(30111), NOTIFICATION_ERROR)
+            dialog.notification(translate(30110), '', NOTIFICATION_ERROR)
 
 @plugin.route('/lbry/videos')
 def show_videos():
