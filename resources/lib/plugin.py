@@ -64,7 +64,9 @@ def wallet_menu():
 @plugin.route('/lbry/wallet/balance')
 def show_balance():
     balance = lbry_rpc('account_balance')
-    dialog.ok(translate(30119), translate(30120) + str(balance) + translate(30121))
+    dialog.ok(translate(30119), translate(30120) + str(balance['total']) + translate(30121),
+        translate(30145) + str(balance['available']) + translate(30121),
+        translate(30146) + str(balance['reserved']) + translate(30121))
 
 @plugin.route('/lbry/wallet/unused_address')
 def show_unused_address():
