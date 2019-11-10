@@ -27,7 +27,6 @@ kodilogging.config()
 plugin = routing.Plugin()
 ph = plugin.handle
 dialog = Dialog()
-nsfw = getSetting(ph, 'nsfw')=='true'
 
 def lbry_rpc(method, params={}):
     try:
@@ -87,6 +86,7 @@ def show_videos():
     result = lbry_rpc('file_list')
     setContent(ph, 'movies')
     items = []
+    nsfw = getSetting(ph, 'nsfw')=='true'
     for r in result:
         if r['mime_type'].startswith('video'):
             if 'metadata' in r:
