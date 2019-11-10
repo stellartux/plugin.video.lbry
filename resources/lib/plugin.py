@@ -135,7 +135,7 @@ def search_page(query, page):
         items = []
         for item in result['items']:
             if item['value_type'] == 'stream':
-                url = plugin.url_for(get_file, uri=r['permanent_url'][7:])
+                url = plugin.url_for(get_file, uri=item['permanent_url'][7:])
                 li = make_video_listitem(item, item['value'])
                 items.append((url, li))
         addDirectoryItems(ph, items, result['page_size'])
@@ -153,7 +153,6 @@ def search_page(query, page):
 @plugin.route('/lbry/get/<uri>')
 def get_file(uri):
     stuff = lbry_rpc('get', {'uri': uri, 'save_file': True})
-    xmbc.log(stuff)
 
 '''Get the UI string associated with an id in the user's language'''
 def translate(id):
