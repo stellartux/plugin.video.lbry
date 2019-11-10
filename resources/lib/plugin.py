@@ -113,7 +113,7 @@ def make_video_listitem(item, metadata):
             'poster':metadata['thumbnail']['url'],
             'fanart':metadata['thumbnail']['url']})
     if 'description' in metadata:
-        li.setInfo('video', {'plot':s['description']})
+        li.setInfo('video', {'plot':metadata['description']})
     if 'author' in metadata:
         li.setInfo('video', {'writer':metadata['author']})
     elif 'channel_name' in item:
