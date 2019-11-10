@@ -106,35 +106,37 @@ def show_videos():
     addDirectoryItems(ph, items, len(items))
     endOfDirectory(ph)
 
-def make_video_listitem(r, s):
-    li = ListItem(s['title'])
-    if 'thumbnail' in s and 'url' in s['thumbnail']:
-        li.setArt({'thumb':s['thumbnail']['url'],
-            'poster':s['thumbnail']['url'],
-            'fanart':s['thumbnail']['url']})
-    if 'description' in s:
+def make_video_listitem(item, metadata):
+    li = ListItem(metadata['title'] if 'title' in metadata else item['file_name'] if 'file_name' in item else '')
+    if 'thumbnail' in metadata and 'url' in metadata['thumbnail']:
+        li.setArt({'thumb':metadata['thumbnail']['url'],
+            'poster':metadata['thumbnail']['url'],
+            'fanart':metadata['thumbnail']['url']})
+    if 'description' in metadata:
         li.setInfo('video', {'plot':s['description']})
-    if 'author' in s:
-        li.setInfo('video', {'writer':s['author']})
-    elif 'channel_name' in r:
-        li.setInfo('video', {'writer':r['channel_name']})
+    if 'author' in metadata:
+        li.setInfo('video', {'writer':metadata['author']})
+    elif 'channel_name' in item:
+        li.setInfo('video', {'writer':item['channel_name']})
     return li
 
+'''Show search input query box'''
 @plugin.route('/lbry/search')
 def lbry_search():
     query = dialog.input(translate(30106))
     search_page(query, 1)
 
+'''Show paginated search results'''
 @plugin.route('/lbry/search/<query>/<page>')
 def search_page(query, page):
     page = int(page)
     if query != "":
         result = lbry_rpc('claim_search', {'name': query, 'page': page, 'page_size': int(getSetting(ph, 'page_size'))})
         items = []
-        for r in result['items']:
-            if r['value_type'] == 'stream':
-                url = ''
-                li = make_video_listitem(r, r['value'])
+        for item in result['items']:
+            if item['value_type'] == 'stream':
+                url = plugin.url_for(get_file, uri=r['permanent_url'][7:])
+                li = make_video_listitem(item, item['value'])
                 items.append((url, li))
         addDirectoryItems(ph, items, result['page_size'])
         if (result['total_pages'] > 1):
@@ -147,6 +149,13 @@ def search_page(query, page):
     else:
         endOfDirectory(ph, False)
 
+'''Download file associated with URI'''
+@plugin.route('/lbry/get/<uri>')
+def get_file(uri):
+    stuff = lbry_rpc('get', {'uri': uri, 'save_file': True})
+    xmbc.log(stuff)
+
+'''Get the UI string associated with an id in the user's language'''
 def translate(id):
     return ADDON.getLocalizedString(id)
 
@@ -159,6 +168,7 @@ def speech_menu():
 def speech_search():
     query = dialog.input(translate(30109))
 
+'''Send a tip to the owner of a claim id'''
 @plugin.route('/lbry/send_tip/<claim_id>/<channel_name>')
 def send_tip(claim_id, channel_name=translate(30133)):
     amount = dialog.input(translate(30127))
@@ -170,5 +180,6 @@ def send_tip(claim_id, channel_name=translate(30133)):
     if (dialog.yesno(translate(30124), translate(30128) + str(amount) + translate(30129) + channel_name + '?')):
         lbry_rpc('support_create', {'claim_id': claim_id, 'amount': str(amount), 'tip': True})
 
+'''Starts the plugin routing system'''
 def run():
     plugin.run()
