@@ -35,7 +35,7 @@ def lbry_rpc(method, params={}):
         result.raise_for_status()
         return result.json()['result']
     except Exception as e:
-        dialog.notification(translate(30110), result.json()['error']['message'], NOTIFICATION_ERROR)
+        dialog.notification(translate(30110), str(e), NOTIFICATION_ERROR)
         xbmc.log(str(e))
         endOfDirectory(ph, False)
 
