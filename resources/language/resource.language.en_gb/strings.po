@@ -18,7 +18,7 @@ msgstr ""
 
 # Strings for settings.xml
 msgctxt "#30000"
-msgid "JSON-RPC URL"
+msgid "Lbry server URL"
 msgstr ""
 
 msgctxt "#30001"
