@@ -75,21 +75,21 @@ def show_unused_address():
     address = lbry_rpc('address_unused')
     dialog.ok(translate(30122), address)
 
-@plugin.route('/lbry/file_delete/<file_name>')
+@plugin.route('/lbry/file_delete/<path:file_name>')
 def file_delete(file_name):
     if dialog.yesno(translate(30115),translate(30116)):
         if (lbry_rpc('file_delete', {'file_name': file_name, 'delete_from_download_dir': True})):
             dialog.notification(translate(30130), translate(30132))
             xbmc.executebuiltin('Container.Refresh')
         else:
-            dialog.notification(translate(30110), '', NOTIFICATION_ERROR)
+            dialog.notification(translate(30110), translate(30111), NOTIFICATION_ERROR)
 
 @plugin.route('/lbry/videos')
 def show_videos():
     result = lbry_rpc('file_list')
     setContent(ph, 'movies')
     items = []
-    nsfw = getSetting(ph, 'nsfw')=='true'
+    nsfw = ADDON.getSettingBool('nsfw')
     for r in result:
         if r['mime_type'].startswith('video'):
             if 'metadata' in r:
@@ -101,10 +101,20 @@ def show_videos():
             li.setMimeType(r['mime_type'])
             if r['download_path'] != None:
                 url = r['download_path']
-                #li.addContextMenuItems([(translate(30112), 'RunPlugin(' + plugin.url_for(file_delete, file_name=r['file_name']) + ')')])
             else:
                 url = r['streaming_url']
-            li.addContextMenuItems([(translate(30125) + ' ' + (r['channel_name'] or translate(30133)), 'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=(r['channel_name'] or translate(30133))) + ')')])
+
+            context_items = [
+                    (   # Send tip context menu
+                        translate(30125) + ' ' + (r['channel_name'] or translate(30133)),
+                        'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=(r['channel_name'] or translate(30133))) + ')'
+                    ),
+                    (   # File delete context menu
+                        translate(30112),
+                        'RunPlugin(' + plugin.url_for(file_delete, file_name=r['file_name']) + ')'
+                    )
+                ]
+            li.addContextMenuItems(context_items)
             items.append((url, li))
     addDirectoryItems(ph, items, len(items))
     endOfDirectory(ph)
