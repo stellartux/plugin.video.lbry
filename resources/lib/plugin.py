@@ -2,14 +2,14 @@
 '''
 paste this into Python interpreter to do lbry rpc calls easily
 
-import requests
+from requests import post
 def lbry_rpc(method, params={}):
     try:
-        result = requests.post('http://localhost:5279', json={'method': method, 'params': params})
+        result = post('http://localhost:5279', json={'method': method, 'params': params})
         result.raise_for_status()
         return result.json()['result']
-    except:
-        print('Lbry RPC error', result.json()['error']['code'], result.json()['error']['message'])
+    except Exception as e:
+        print('Lbry RPC error', str(e), result.json()['error']['message'])
 '''
 
 import routing
@@ -18,8 +18,8 @@ import xbmcaddon
 from resources.lib import kodiutils, kodilogging
 import xbmc
 from xbmcgui import ListItem, Dialog, NOTIFICATION_ERROR, INPUT_NUMERIC
-from xbmcplugin import addDirectoryItem, addDirectoryItems, endOfDirectory, getSetting, setContent
-import requests
+from xbmcplugin import addDirectoryItem, addDirectoryItems, endOfDirectory, setContent
+from requests import post
 
 ADDON = xbmcaddon.Addon()
 logger = logging.getLogger(ADDON.getAddonInfo('id'))
@@ -30,7 +30,10 @@ dialog = Dialog()
 
 def lbry_rpc(method, params={}):
     try:
-        result = requests.post(getSetting(ph, 'lbryurl'), json={'method': method, 'params': params})
+        rpc_url = ADDON.getSetting('lbryurl')
+        if rpc_url == '':
+            raise Exception('No URL for RPC.')
+        result = post(rpc_url, json={'method': method, 'params': params})
         result.raise_for_status()
         return result.json()['result']
     except Exception as e:
