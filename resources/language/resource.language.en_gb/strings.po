@@ -192,13 +192,12 @@ msgctxt "#30141"
 msgid "Next page"
 msgstr ""
 
-# "Showing page $page_num of $total_pages"
 msgctxt "#30142"
-msgid "Showing page "
+msgid "Showing page {0} of {1}"
 msgstr ""
 
 msgctxt "#30143"
-msgid " of "
+msgid ""
 msgstr ""
 
 msgctxt "#30144"
@@ -211,4 +210,12 @@ msgstr ""
 
 msgctxt "#30146"
 msgid "Reserved: "
+msgstr ""
+
+msgctxt "#30147"
+msgid "Confirm Purchase?"
+msgstr ""
+
+msgctxt "#30148"
+msgid "This will purchase the video for {0} {1}. Confirm?"
 msgstr ""

@@ -143,29 +143,41 @@ def lbry_search():
 @plugin.route('/lbry/search/<query>/<page>')
 def search_page(query, page):
     page = int(page)
-    if query != "":
-        result = lbry_rpc('claim_search', {'name': query, 'page': page, 'page_size': int(getSetting(ph, 'page_size'))})
+    if query != '':
+        result = lbry_rpc('claim_search', {'name': query, 'page': page, 'page_size': int(ADDON.getSetting('page_size')), 'stream_types':['video']})
         items = []
         for item in result['items']:
             if item['value_type'] == 'stream':
-                url = plugin.url_for(get_file, uri=item['permanent_url'][7:])
+                url = plugin.url_for(get_file, name=item['normalized_name'], id=item['claim_id'])
                 li = make_video_listitem(item, item['value'])
                 items.append((url, li))
         addDirectoryItems(ph, items, result['page_size'])
-        if (result['total_pages'] > 1):
+        total_pages = int(result['total_pages'])
+        if (total_pages > 1):
             addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30144)), True)
             if (page > 1):
                 addDirectoryItem(ph, plugin.url_for(search_page, query=query, page=page-1), ListItem(translate(30140)), True)
-            if (page < result['total_pages']):
+            if (page < total_pages):
                 addDirectoryItem(ph, plugin.url_for(search_page, query=query, page=page+1), ListItem(translate(30141)), True)
         endOfDirectory(ph)
     else:
         endOfDirectory(ph, False)
 
-'''Download file associated with URI'''
-@plugin.route('/lbry/get/<uri>')
-def get_file(uri):
-    stuff = lbry_rpc('get', {'uri': uri, 'save_file': True})
+'''Download file associated with name and id'''
+@plugin.route('/lbry/get/<name>/<id>')
+def get_file(name, id):
+    uri = name + '#' + id
+    claim_info = lbry_rpc('resolve', {'urls': uri})
+    dialog.ok('URI', uri)
+    dialog.textviewer('', str(claim_info))
+    if 'error' in claim_info[uri]:
+        dialog.notification(translate(30110), claim_info[uri]['error'], NOTIFICATION_ERROR)
+        return
+    elif 'fee' in claim_info[uri]['value']:
+        if not dialog.yesno(translate(30147), translate(30148).format(str(claim_info[uri]['value']['fee']['amount']), str(claim_info[uri]['value']['fee']['currency']))):
+            return
+    result = lbry_rpc('get', {'uri': uri, 'save_file': True})
+    xbmc.Player().play(result['streaming_url'])
 
 '''Get the UI string associated with an id in the user's language'''
 def translate(id):
