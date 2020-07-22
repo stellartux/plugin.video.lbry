@@ -72,19 +72,21 @@ def show_unused_address():
 @plugin.route('/lbry/file_delete/<path:file_name>')
 def file_delete(file_name):
     if dialog.yesno(translate(30115),translate(30116)):
-        if (lbry_rpc('file_delete', {'file_name': file_name, 'delete_from_download_dir': True})):
+        if lbry_rpc('file_delete', {'file_name': file_name, 'delete_from_download_dir': True}):
             dialog.notification(translate(30130), translate(30132))
             xbmc.executebuiltin('Container.Refresh')
         else:
             dialog.notification(translate(30110), translate(30111), NOTIFICATION_ERROR)
 
-@plugin.route('/lbry/videos')
-def show_videos():
-    result = lbry_rpc('file_list')
+@plugin.route('/lbry/videos/<page>')
+def show_videos(page):
+    page = int(page)
+    result = lbry_rpc('file_list', {'page': page, 'page_size': int(ADDON.getSetting('page_size'))})
+    # { total_items, items, page, total_pages, page_size }
     setContent(ph, 'movies')
     items = []
     nsfw = ADDON.getSettingBool('nsfw')
-    for r in result:
+    for r in result['items']:
         if r['mime_type'].startswith('video'):
             if 'metadata' in r:
                 if (not nsfw and ('nsfw' in r['metadata']) and r['metadata']['nsfw']):
@@ -110,6 +112,19 @@ def show_videos():
                 ]
             li.addContextMenuItems(context_items)
             items.append((url, li))
+
+    description = translate(30142).format(result['page'], result['total_pages'])
+    if result['total_pages'] > 1 and page > 1:
+        li = ListItem(translate(30140))
+        li.setInfo('video', {'plot': description})
+        li.setIsFolder(True)
+        items.append((plugin.url_for(show_videos, page = page - 1), li))
+    if page < result['total_pages']:
+        li = ListItem(translate(30141))
+        li.setInfo('video', {'plot': description})
+        li.setIsFolder(True)
+        items.append((plugin.url_for(show_videos, page = page + 1), li))
+
     addDirectoryItems(ph, items, len(items))
     endOfDirectory(ph)
 
