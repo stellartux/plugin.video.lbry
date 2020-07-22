@@ -13,175 +13,175 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 # Strings for settings.xml
 msgctxt "#30000"
 msgid "Lbry server URL"
-msgstr ""
+msgstr "Lbry сервер URL"
 
 msgctxt "#30002"
 msgid "Show NSFW content"
-msgstr ""
+msgstr "Показывать контент для взрослых"
 
 msgctxt "#30005"
 msgid "Options"
-msgstr ""
+msgstr "Установки"
 
 msgctxt "#30006"
 msgid "Items per page"
-msgstr ""
+msgstr "Количество элементов на странице"
 
 # Strings for plugin GUI
 msgctxt "#30102"
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 msgctxt "#30103"
 msgid "Show Videos"
-msgstr ""
+msgstr "Показывать видео"
 
 msgctxt "#30104"
 msgid "Show Images"
-msgstr ""
+msgstr "Показывать картинки"
 
 msgctxt "#30105"
 msgid "Show Web Content"
-msgstr ""
+msgstr "Показывать веб-контент"
 
 msgctxt "#30106"
 msgid "Search Lbry"
-msgstr ""
+msgstr "поиск Lbry"
 
 msgctxt "#30107"
 msgid "Connection Error"
-msgstr ""
+msgstr "Ошибка соединения"
 
 msgctxt "#30108"
 msgid "Could not find the Lbry daemon."
-msgstr ""
+msgstr "Не удалось найти службу Lbry"
 
 msgctxt "#30110"
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 msgctxt "#30111"
 msgid "File could not be deleted"
-msgstr ""
+msgstr "Файл не может быть удален."
 
 msgctxt "#30112"
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 msgctxt "#30113"
 msgid "Abandon Claim?"
-msgstr ""
+msgstr "Отказаться от претензий?"
 
 msgctxt "#30114"
 msgid "You own the claim for the file you are about to delete. Would you like to abandon the claim?"
-msgstr ""
+msgstr "Вы владеете претензией к файлу, который собираетесь удалить. Отказаться от претензий?"
 
 msgctxt "#30115"
 msgid "Delete File?"
-msgstr ""
+msgstr "Удалить файл?"
 
 msgctxt "#30116"
 msgid "Are you sure you want to delete this file?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить файл?"
 
 msgctxt "#30117"
 msgid "Wallet"
-msgstr ""
+msgstr "Кошелек"
 
 msgctxt "#30118"
 msgid "Show balance"
-msgstr ""
+msgstr "Показывать баланс"
 
 msgctxt "#30119"
 msgid "Wallet balance"
-msgstr ""
+msgstr "Баланс кошелька"
 
 msgctxt "#30120"
 msgid "Total balance: "
-msgstr ""
+msgstr "Общий баланс: "
 
 msgctxt "#30121"
 msgid " LBC"
-msgstr ""
+msgstr " LBC"
 
 msgctxt "#30122"
 msgid "Unused Address"
-msgstr ""
+msgstr "Неиспользуемый адрес"
 
 msgctxt "#30123"
 msgid "Show an unused address"
-msgstr ""
+msgstr "Показывать неиспользуемый адрес"
 
 msgctxt "#30124"
 msgid "Send a tip"
-msgstr ""
+msgstr "Давать на чай"
 
 msgctxt "#30125"
-msgid "Send a tip to {0}"
-msgstr ""
+msgid "Send a tip to"
+msgstr "Оставьте чаевые {0}y"
 
 msgctxt "#30126"
 msgid "Amount"
-msgstr ""
+msgstr "Сумма"
 
 msgctxt "#30127"
 msgid "How much would you like to tip?"
-msgstr ""
+msgstr "Сколько бы вы хотели дать чаевых?"
 
 msgctxt "#30128"
 msgid "Send a tip of {0} LBC to {1}?"
-msgstr ""
+msgstr "Дать чаевые в {0} LBC {1}у?"
 
 msgctxt "#30130"
 msgid "Success"
-msgstr ""
+msgstr "Успешно"
 
 msgctxt "#30131"
 msgid "Please enter a number."
-msgstr ""
+msgstr "Пожалуйста, введите номер."
 
 msgctxt "#30132"
 msgid "File deleted"
-msgstr ""
+msgstr "Файл удален"
 
 msgctxt "#30133"
 msgid "this channel"
-msgstr ""
+msgstr "этому канал"
 
 msgctxt "#30140"
 msgid "Previous page"
-msgstr ""
+msgstr "Предыдущая страница"
 
 msgctxt "#30141"
 msgid "Next page"
-msgstr ""
+msgstr "Следующая страница"
 
 msgctxt "#30142"
 msgid "Showing page {0} of {1}"
-msgstr ""
+msgstr "Отображение страницы {0} из {1}"
 
 msgctxt "#30144"
 msgid "Main menu"
-msgstr ""
+msgstr "Главное меню"
 
 msgctxt "#30145"
 msgid "Available: "
-msgstr ""
+msgstr "Доступный: "
 
 msgctxt "#30146"
 msgid "Reserved: "
-msgstr ""
+msgstr "Зарезервированный: "
 
 msgctxt "#30147"
 msgid "Confirm Purchase?"
-msgstr ""
+msgstr "Подтвердить покупку?"
 
 msgctxt "#30148"
 msgid "This will purchase the video for {0} {1}. Confirm?"
-msgstr ""
+msgstr "Это позволит приобрести видео за {0} {1}, подтвердите?"

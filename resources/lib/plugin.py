@@ -102,7 +102,7 @@ def show_videos(page):
 
             context_items = [
                     (   # Send tip context menu
-                        translate(30125) + ' ' + (r['channel_name'] or translate(30133)),
+                        translate(30125).format(r['channel_name'] or translate(30133)),
                         'RunPlugin(' + plugin.url_for(send_tip, claim_id=r['claim_id'], channel_name=(r['channel_name'] or translate(30133))) + ')'
                     ),
                     (   # File delete context menu
@@ -195,7 +195,7 @@ def send_tip(claim_id, channel_name=translate(30133)):
     except:
         dialog.notification(translate(30110), translate(30131), NOTIFICATION_ERROR)
         return
-    if (dialog.yesno(translate(30124), translate(30128) + str(amount) + translate(30129) + channel_name + '?')):
+    if dialog.yesno(translate(30124), translate(30128).format(str(amount), channel_name)):
         lbry_rpc('support_create', {'claim_id': claim_id, 'amount': str(amount), 'tip': True})
 
 '''Starts the plugin routing system'''
