@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-  <category>
-    <setting id="nsfw" type="bool" label="30002" default="false"/>
-  </category>
-  <category label="30003">
-    <setting id="lbryurl" type="text" option="urlencoded" label="30000" default="http://localhost:5279"/>
-    <setting id="daemonpath" type="text" label="30004" default=""/>
-  </category>
   <category label="30005">
-    <setting id="page_size" type="number" label="30006" default="10"/>
+    <setting id="nsfw" type="bool" label="30002" default="false"/>
+    <setting id="lbryurl" type="text" option="urlencoded" label="30000" default="http://localhost:5279"/>
+    <setting id="page_size" type="number" label="30006" default="20"/>
   </category>
-<!--    <setting id="speechurl" type="text" option="urlencoded" label="30001" default="https://www.spee.ch"/> -->
 </settings>

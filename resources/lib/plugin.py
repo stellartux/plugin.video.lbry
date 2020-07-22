@@ -22,6 +22,7 @@ from xbmcplugin import addDirectoryItem, addDirectoryItems, endOfDirectory, setC
 from requests import post
 
 ADDON = xbmcaddon.Addon()
+translate = ADDON.getLocalizedString
 logger = logging.getLogger(ADDON.getAddonInfo('id'))
 kodilogging.config()
 plugin = routing.Plugin()
@@ -42,16 +43,9 @@ def lbry_rpc(method, params={}):
         endOfDirectory(ph, False)
 
 @plugin.route('/')
-def index():
-    #addDirectoryItem(ph, plugin.url_for(lbry_menu), ListItem(translate(30101)), True)
-    #addDirectoryItem(ph, plugin.url_for(speech_menu), ListItem(translate(30100)), True)
-    #endOfDirectory(ph)
-    lbry_menu()
-
-@plugin.route('/lbry/menu')
 def lbry_menu():
     addDirectoryItem(ph, plugin.url_for(lbry_search), ListItem(translate(30102)), True)
-    addDirectoryItem(ph, plugin.url_for(show_videos), ListItem(translate(30103)), True)
+    addDirectoryItem(ph, plugin.url_for(show_videos, page=1), ListItem(translate(30103)), True)
     #addDirectoryItem(ph, plugin.url_for(show_images), ListItem(translate(30104)), True)
     #addDirectoryItem(ph, plugin.url_for(show_web), ListItem(translate(30105)), True)
     addDirectoryItem(ph, plugin.url_for(wallet_menu), ListItem(translate(30117)), True)
@@ -168,8 +162,6 @@ def search_page(query, page):
 def get_file(name, id):
     uri = name + '#' + id
     claim_info = lbry_rpc('resolve', {'urls': uri})
-    dialog.ok('URI', uri)
-    dialog.textviewer('', str(claim_info))
     if 'error' in claim_info[uri]:
         dialog.notification(translate(30110), claim_info[uri]['error'], NOTIFICATION_ERROR)
         return
@@ -178,19 +170,6 @@ def get_file(name, id):
             return
     result = lbry_rpc('get', {'uri': uri, 'save_file': True})
     xbmc.Player().play(result['streaming_url'])
-
-'''Get the UI string associated with an id in the user's language'''
-def translate(id):
-    return ADDON.getLocalizedString(id)
-
-@plugin.route('/speech')
-def speech_menu():
-    addDirectoryItem(ph, plugin.url_for(speech_search), ListItem(translate(30102)))
-    endOfDirectory(ph)
-
-@plugin.route('/speech/search')
-def speech_search():
-    query = dialog.input(translate(30109))
 
 '''Send a tip to the owner of a claim id'''
 @plugin.route('/lbry/send_tip/<claim_id>/<channel_name>')

@@ -21,39 +21,19 @@ msgctxt "#30000"
 msgid "Lbry server URL"
 msgstr ""
 
-msgctxt "#30001"
-msgid "spee.ch server URL"
-msgstr ""
-
 msgctxt "#30002"
 msgid "Show NSFW content"
 msgstr ""
 
-msgctxt "#30003"
-msgid "lbry daemon"
-msgstr ""
-
-msgctxt "#30004"
-msgid "Path to daemon"
-msgstr ""
-
 msgctxt "#30005"
-msgid "Search Options"
+msgid "Options"
 msgstr ""
 
 msgctxt "#30006"
-msgid "Search Page Size"
+msgid "Items per page"
 msgstr ""
 
 # Strings for plugin GUI
-msgctxt "#30100"
-msgid "Connect via spee.ch web API"
-msgstr ""
-
-msgctxt "#30101"
-msgid "Connect via local lbrynet daemon"
-msgstr ""
-
 msgctxt "#30102"
 msgid "Search"
 msgstr ""
@@ -79,11 +59,7 @@ msgid "Connection Error"
 msgstr ""
 
 msgctxt "#30108"
-msgid "Could not find the lbry daemon."
-msgstr ""
-
-msgctxt "#30109"
-msgid "search on spee.ch"
+msgid "Could not find the Lbry daemon."
 msgstr ""
 
 msgctxt "#30110"
@@ -194,10 +170,6 @@ msgstr ""
 
 msgctxt "#30142"
 msgid "Showing page {0} of {1}"
-msgstr ""
-
-msgctxt "#30143"
-msgid ""
 msgstr ""
 
 msgctxt "#30144"
