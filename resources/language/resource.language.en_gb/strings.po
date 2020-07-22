@@ -134,7 +134,6 @@ msgctxt "#30127"
 msgid "How much would you like to tip?"
 msgstr ""
 
-#In full "Send a tip of $value LBC to $username ?"
 msgctxt "#30128"
 msgid "Send a tip of "
 msgstr ""
@@ -159,7 +158,6 @@ msgctxt "#30133"
 msgid "this channel"
 msgstr ""
 
-#Menu text
 msgctxt "#30140"
 msgid "Previous page"
 msgstr ""

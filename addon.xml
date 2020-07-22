@@ -11,15 +11,10 @@
     <extension point="xbmc.addon.metadata">
         <summary lang="en_GB">Access the Lbry network</summary>
         <description lang="en_GB">Access content hosted on the Lbry network</description>
-        <language></language>
+        <language>en_GB</language>
         <platform>all</platform>
         <license>MIT</license>
-        <forum></forum>
-        <website></website>
-        <email></email>
         <source>https://github.com/stellartux/plugin.video.lbry</source>
-        <news></news>
-        <disclaimer></disclaimer>
         <assets>
             <icon>resources/assets/icon.png</icon>
             <fanart>resources/assets/fanart.jpg</fanart>
